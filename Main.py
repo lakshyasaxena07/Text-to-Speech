@@ -10,7 +10,7 @@ def text_to_speech(text, language='en'):
     tts.save("output.mp3")
     
     # Optionally, play the audio file (works on Windows)
-    os.system("start output.mp3")  # Use "default player for output.mp3" on macOS or "xdg-open output.mp3" on Linux
+    os.system("start output.mp3")  
 
 
 if __name__ == "__main__":
