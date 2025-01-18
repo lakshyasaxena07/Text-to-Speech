@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text to Speech</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-image: url("https://images2.alphacoders.com/114/1143091.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        text-align: center;
+        animation: fadeIn 1s ease-in;
+      }
+
+      .container {
+        background: rgba(22, 69, 138, 0.8);
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideIn 0.5s forwards;
+      }
+
+      header h1 {
+        color: #f0f0f0;
+        font-size: 2rem;
+        margin-bottom: 20px;
+      }
+
+      textarea {
+        resize: none;
+        width: 96%;
+        height: 100px;
+        background: rgba(64, 113, 186, 0.8);
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: border 0.3s;
+      }
+
+      textarea:focus {
+        border: 2px solid #007bff;
+        outline: none;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+        margin-top: 10px;
+      }
+      button:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+      }
+      audio {
+        display: none;
+        margin-top: 10px;
+        transition: opacity 0.5s;
+        color: #f0f0f0;
+      }
+      footer {
+        color: #f0f0f0;
+        margin-top: 20px;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes bounce {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-10px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Hello, I am Talkify!</h1>
+      </header>
+      <textarea id="text-input" placeholder="Enter text here..."></textarea>
+      <button onclick="convertTextToSpeech()">Convert to Speech</button>
+      <audio id="audio-output" controls style="opacity: 0"></audio>
+      <footer>
+        <p>&copy; 2024 Talkify. All rights reserved. Created By Lakshya Saxena.</p>
+      </footer>
+    </div>
+    <script>
+      async function convertTextToSpeech() {
+        const text = document.getElementById("text-input").value;
+        if (!text) {
+          alert("Please enter some text.");
+          return;
+        }
+        const response = await fetch("/tts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text }),
+        });
+        if (!response.ok) {
+          alert("Failed to convert text to speech.");
+          return;
+        }
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const audio = document.getElementById("audio-output");
+        audio.src = url;
+        audio.style.display = "block";
+        audio.style.opacity = 1;
+      }
+      document.getElementById("audio-output").addEventListener("play", () => {
+        document.getElementById("audio-output").style.opacity = "1";
+      });
+    </script>
+  </body>
+</html>
