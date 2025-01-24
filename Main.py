@@ -13,7 +13,7 @@ def text_to_speech():
     text = data.get('text')  # Get the text from the JSON payload
     language = data.get('language', 'en-in')  # Get the language, default to 'en-in'
     
-    # Check if text is provided
+    # Check if text is provided or not
     if not text:
         return jsonify({'error': 'No text provided'}), 400  # Return error if text is missing
     
