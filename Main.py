@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, send_file
 from gtts import gTTS
 import os
 
+
 # Initialize the Flask application
 app = Flask(__name__, static_folder='static')
 
